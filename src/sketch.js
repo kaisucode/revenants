@@ -1,4 +1,8 @@
 
+let totalAllies = 0;
+let soulCount = 10;
+let slugs = 0;
+
 let seraphs = [];
 let chimeras = [];
 let entities = [seraphs, chimeras];
