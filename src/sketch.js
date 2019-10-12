@@ -60,6 +60,7 @@ function rectHitsCircle(posCircle, rCircle, posRect, dimsRect){
 
 
 function setup(){
+	// ellipseMode(CENTER);
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
 	textSize(30);
 	tempBarricade = new Barricade(600,600)
