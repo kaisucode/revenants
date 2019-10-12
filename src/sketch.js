@@ -91,7 +91,6 @@ function draw(){
 
 		for(let j in seraphs){
 			if (rectHitsRect(chimeras[i].pos, chimeras[i].dims, seraphs[j].pos, seraphs[j].dims)){
-				console.log("contact");
 				meleeOnContact(j, i);
 			}
 		}
@@ -102,6 +101,11 @@ function draw(){
 	}
 	for(let i in barricades){
 		barricades[i].render();
+		for(let j in seraphs){
+			if (rectHitsRect(barricades[i].pos, barricades[i].dims, seraphs[j].pos, seraphs[j].dims)){
+				seraphs[j].bounce();
+			}
+		}
 	}
 	tempBarricade.render();
 	fill(255,255,255);

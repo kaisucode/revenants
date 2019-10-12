@@ -7,7 +7,7 @@ class Entity{
 		this.vel = p5.Vector.random2D().mult(this.maxspeed);
 		this.dims = new p5.Vector(10,10);
 		this.anchor = new p5.Vector(incarnation_x, incarnation_y);
-		this.anchorRadius = 40;
+		this.anchorRadius = 80;
 	}
 	update(){
 		// vel*dt, but dt=1
@@ -37,6 +37,13 @@ class Entity{
 		}
 		else {
 			this.seek();
+		}
+	}
+	// this could be  aproelm tin hte long run...
+	bounce(){
+		this.vel.mult(-1);
+		for( let i = 0; i < 10; i++){
+			this.pos.add(this.vel);
 		}
 	}
 

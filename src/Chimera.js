@@ -26,4 +26,8 @@ class Chimera extends Entity {
 			this.auraAttackCooldown -= 0.05;
 		}
 	}
+	update(){
+		this.random_anchored_walk();
+		super.update();
+	}
 }
