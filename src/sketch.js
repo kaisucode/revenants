@@ -19,8 +19,8 @@ function collideLine(aMin, aMax, bMin, bMax) {
 }
 
 function rectHitsRect(posA, dimsA, posB, dimsB) {
-	let xInt = collideLine(posA.x, posA.x+dimsA.x, posB.x, posB.x+dimsB.x);
-	let yInt = collideLine(posA.y, posA.y+dimsA.y, posB.y, posB.y+dimsB.y);
+	let xInt = collideLine(posA.x-dimsA.x/2, posA.x+dimsA.x/2, posB.x-dimsB.x/2, posB.x+dimsB.x/2);
+	let yInt = collideLine(posA.y-dimsA.y/2, posA.y+dimsA.y/2, posB.y-dimsB.y/2, posB.y+dimsB.y/2);
 	return (xInt && yInt);
 }
 
@@ -60,6 +60,7 @@ function rectHitsCircle(posCircle, rCircle, posRect, dimsRect){
 
 
 function setup(){
+	// ellipseMode(CENTER);
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
 	textSize(30);
 	tempBarricade = new Barricade(600,600)
