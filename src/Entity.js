@@ -13,6 +13,6 @@ class Entity{
 	}
 	render(){
 		fill(255,0,0);
-		ellipse(this.pos.x,this.pos.y,this.dims.x,this.dims.y);
+		ellipse(this.pos.x, this.pos.y, this.dims.x, this.dims.y);
 	}
 }

@@ -37,11 +37,9 @@ function rectHitsCircle(posA, rA, posB, dimsB){
 }
 
 
-
 function setup(){
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
 	seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
-	chimeras.push(new Chimera(Math.random()*width,Math.random()*height));
 }
 
 function draw(){
@@ -64,5 +62,26 @@ function draw(){
 	fill(255,255,255);
 	text("Slugs: "+user.slugs, 20-width/2, 20-height/2);
 	text("Slugs: "+user.slugs, 20-width/2, 20-height/2);
+}
+
+
+function mouseReleased(){
+	if (keyIsDown(83)){		// s key
+		console.log("spawn");
+		reviveChimera(mouseX-width/2, mouseY-height/2);
+	}
+	else
+		selectChimera(mouseX-width/2, mouseY-height/2);
+}
+
+function reviveChimera(posX, posY){
+	if (user.souls > 0) {
+		chimeras.push(new Chimera(posX, posY));
+		user.souls--;
+	}
+}
+
+function selectChimera(){
+	console.log("selected chimera");
 }
 
