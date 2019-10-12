@@ -77,6 +77,7 @@ function draw(){
 	for(let i in seraphs){
 		if (seraphs[i].health <= 0) {
 			seraphs.splice(i, 1);
+		}
 		if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){	
 			deadCt++;
 		}
@@ -131,6 +132,9 @@ function keyReleased() {
   if (keyCode === 65) {
 		auraAttack();
   }
+
+	tempBarricade.pos.x = -1000;
+	tempBarricade.pos.y= -1000;
 }
 
 function reviveChimera(posX, posY){
@@ -202,11 +206,6 @@ function Mouse(){
 	circle(mouseX-width/2, mouseY-height/2, 10);
 	fill(0, 0, 0);
 	stroke(0, 0, 0);
-}
-
-function keyReleased() {
-	tempBarricade.pos.x = -1000;
-	tempBarricade.pos.y= -1000;
 }
 
 setInterval(function(){user.slugs+=3}, 1000);
