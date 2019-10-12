@@ -2,11 +2,12 @@ class Entity{
 	constructor(incarnation_x, incarnation_y){
 		this.whichEntity = "generic";
 		this.health = 10;
-		this.speed = 2;
+		this.maxspeed = 2;
 		this.pos = new p5.Vector(incarnation_x, incarnation_y);
-		this.vel = new p5.Vector(0,0);
+		this.vel = p5.Vector.random2D().mult(this.maxspeed);
 		this.dims = new p5.Vector(10,10);
-		this.anchored = new p5.Vector(incarnation_x, incarnation_y);
+		this.anchor = new p5.Vector(incarnation_x, incarnation_y);
+		this.anchorRadius = 40;
 	}
 	update(){
 		// vel*dt, but dt=1
@@ -18,13 +19,31 @@ class Entity{
 		if (yGood)
 			this.pos.y += this.vel.y
 	}
-	random_anchored_walk(){
-		this.vel.x = Math.random()-0.5;
-		this.vel.y = Math.random()-0.5;
-		this.vel.mult(this.speed/this.vel.mag());
+
+	seek(){
+		let delta = p5.Vector.sub(this.anchor, this.pos);
+		delta.mult(this.maxspeed/delta.mag());
+		this.vel = delta;
 	}
+
+	random_anchored_walk(){
+		if (p5.Vector.dist(this.anchor, this.pos) < this.anchorRadius){
+			this.wanderAngle = this.vel.heading();
+			if(Math.random() < 0.1){
+				this.wanderAngle += (Math.random()-0.5)*0.6;
+				this.vel = p5.Vector.fromAngle(this.wanderAngle);
+				this.vel.mult(0.5*this.maxspeed/this.vel.mag());
+			}
+		}
+		else {
+			this.seek();
+		}
+	}
+
 	render(){
 		fill(255,0,0);
 		rect(this.pos.x, this.pos.y, this.dims.x, this.dims.y);
+		fill(100,100,100,100);
+		ellipse(this.pos.x, this.pos.y, this.anchorRadius*2, this.anchorRadius*2);
 	}
 }

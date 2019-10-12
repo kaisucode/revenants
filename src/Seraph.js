@@ -4,7 +4,7 @@ class Seraph extends Entity {
 		this.whichEntity = "seraph";
 	}
 	update(){
+		this.random_anchored_walk();
 		super.update();
-		this.random_walk();
 	}
 }
