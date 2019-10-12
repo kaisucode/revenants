@@ -4,8 +4,8 @@ class Seraph extends Entity {
 		this.whichEntity = "seraph";
 	}
 	random_walk(){
-		this.vel.x = Math.random();
-		this.vel.y = Math.random();
+		this.vel.x = Math.random()-0.5;
+		this.vel.y = Math.random()-0.5;
 		this.vel.mult(this.speed/this.vel.mag());
 	}
 	update(){
