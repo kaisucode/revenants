@@ -12,7 +12,6 @@ let seraphSpawnRate = 100;
 function setup(){
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
 	seraphs.push(new Seraph(Math.random(0,width),Math.random(0,height)));
-	chimeras.push(new Chimera(Math.random(0,width),Math.random(0,height)));
 }
 
 
@@ -27,6 +26,17 @@ function draw(){
 			entities[i][j].render();
 			entities[i][j].update();
 		}
+	}
+}
+
+function mouseReleased() {
+	reviveChimera(mouseX, mouseY);
+}
+
+function reviveChimera() {
+	if (soulCount > 0) {
+		chimeras.push(new Chimera(mouseX, mouseY));
+		soulCount--;
 	}
 }
 
