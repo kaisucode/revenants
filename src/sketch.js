@@ -13,6 +13,17 @@ function drawStone(){
 	ellipse(0,0,stoneRadius*2,stoneRadius*2);
 }
 
+function collideLine(aMin, aMax, bMin, bMax) {
+	return ((bMin < aMax) && (bMax > aMin));
+}
+
+function rectHitsRect(posA, dimsA, posB, dimsB) {
+	let xInt = this.collideX([posA.x, posA.x+dimsA.x], [posB.x, posB.x+dimsB.x]);
+	let yInt = this.collideX([posA.y, posA.y+dimsA.y], [posB.y, posB.y+dimsB.y]);
+	return (xInt && yInt);
+}
+
+
 function pointInRect(point, rectPos, rectDims){
 	let xGood = (point.x > rectPos.x) && (point.x < rectDims.x + rectPos.x);
 	let yGood = (point.y > rectPos.y) && (point.y < rectDims.y + rectPos.y);
