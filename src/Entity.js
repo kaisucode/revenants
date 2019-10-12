@@ -1,7 +1,7 @@
 class Entity{
-	constructor(){
+	constructor(incarnation_pos){
 		this.health = 10;
-		this.pos = new p5.Vector(0,0);
+		this.pos = incarnation_pos;
 		this.vel = new p5.Vector(0,0);
 		this.dims = new p5.Vector(10,10);
 	}

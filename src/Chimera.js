@@ -1,5 +1,5 @@
 class Chimera extends Entity {
-	constructor(){
-		super();
+	constructor(incarnation_pos){
+		super(incarnation_pos);
 	}
 }

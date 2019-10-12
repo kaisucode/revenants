@@ -3,6 +3,7 @@ let seraphs = [];
 let chimeras = [];
 let entities = [seraphs, chimeras];
 let defenseRadius = 40;
+let seraphSpawnRate = 100;
 
 function setup(){
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
@@ -10,7 +11,11 @@ function setup(){
 	chimeras.push(new Chimera());
 }
 
+
 function draw(){
+	if (Math.random() < 1/seraphSpawnRate){
+		seraphs.push(new Seraph());
+	}
 	translate(width/2, height/2);
 	background(0);
 	for (let i in entities){
