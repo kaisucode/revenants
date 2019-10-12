@@ -5,12 +5,24 @@ let seraphs = [];
 let chimeras = [];
 let entities = [seraphs, chimeras];
 let stoneRadius = 80;
+let stonePos = new p5.Vector(0,0);
 let seraphSpawnRate = 1.05;
 
 function drawStone(){
 	fill(0,255,0,50);
 	ellipse(0,0,stoneRadius*2,stoneRadius*2);
 }
+
+function collideLine(aMin, aMax, bMin, bMax) {
+	return ((bMin < aMax) && (bMax > aMin));
+}
+
+function rectHitsRect(posA, dimsA, posB, dimsB) {
+	let xInt = this.collideX([posA.x, posA.x+dimsA.x], [posB.x, posB.x+dimsB.x]);
+	let yInt = this.collideX([posA.y, posA.y+dimsA.y], [posB.y, posB.y+dimsB.y]);
+	return (xInt && yInt);
+}
+
 
 function pointInRect(point, rectPos, rectDims){
 	let xGood = (point.x > rectPos.x) && (point.x < rectDims.x + rectPos.x);
@@ -46,6 +58,7 @@ function rectHitsCircle(posCircle, rCircle, posRect, dimsRect){
 function setup(){
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
 	seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
+	textSize(30);
 }
 
 function draw(){
@@ -56,8 +69,9 @@ function draw(){
 		seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
 	}
 	for(let i in seraphs){
-		// if(rectHitsCircle()){
-		// }
+		if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){
+			console.log("you loser");
+		}
 		seraphs[i].render();
 		seraphs[i].update();
 	}
@@ -66,8 +80,8 @@ function draw(){
 		chimeras[i].update();
 	}
 	fill(255,255,255);
-	text("Slugs: "+user.slugs, 20-width/2, 20-height/2);
-	text("Slugs: "+user.slugs, 20-width/2, 20-height/2);
+	text("Slugs: "+user.slugs, 20-width/2, 30-height/2);
+	text("Souls: "+user.souls, 20-width/2, 60-height/2);
 }
 
 
