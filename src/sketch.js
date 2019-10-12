@@ -50,8 +50,8 @@ function draw(){
 		seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
 	}
 	for(let i in seraphs){
-		if(circleHitsCircle()){
-		}
+		// if(circleHitsCircle()){
+		// }
 		seraphs[i].render();
 		seraphs[i].update();
 	}
@@ -67,21 +67,40 @@ function draw(){
 
 function mouseReleased(){
 	if (keyIsDown(83)){		// s key
-		console.log("spawn");
 		reviveChimera(mouseX-width/2, mouseY-height/2);
 	}
-	else
+	else if (keyIsDown(68)){	// d key
+		let selectedChimeraIndex = selectChimera(mouseX-width/2, mouseY-height/2);
+		deleteChimera(selectedChimeraIndex);
+	}
+	else{
 		selectChimera(mouseX-width/2, mouseY-height/2);
+	}
 }
 
 function reviveChimera(posX, posY){
 	if (user.souls > 0) {
 		chimeras.push(new Chimera(posX, posY));
 		user.souls--;
+		console.log("spawned chimera");
 	}
 }
 
-function selectChimera(){
-	console.log("selected chimera");
+function selectChimera(x, y){
+	for(let i in chimeras){
+		if (pointInRect(createVector(x, y), chimeras[i].pos, chimeras[i].dims)){
+			chimeras[i].isSelected = 1;
+			console.log("selected chimera");
+			return i;
+		}
+		else{
+		}
+	}
+	console.log("non selected");
+}
+
+function deleteChimera(selectedChimeraIndex){
+	user.souls++;
+	chimeras.splice(selectedChimeraIndex, 1);
 }
 

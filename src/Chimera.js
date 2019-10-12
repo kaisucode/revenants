@@ -5,13 +5,13 @@ class Chimera extends Entity {
 
 		this.isSelected = 0;
 		this.defaultColor = color(0, 255, 242);
-		this.selectedColor = color(40, 255, 242)
+		this.selectedColor = color(40, 200, 100)
 	}
 	render() {
 		if (this.isSelected)
 			fill(this.selectedColor);
 		else
 			fill(this.defaultColor);
-		ellipse(this.pos.x, this.pos.y, this.dims.x, this.dims.y);
+		rect(this.pos.x, this.pos.y, this.dims.x, this.dims.y);
 	}
 }
