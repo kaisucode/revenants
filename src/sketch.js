@@ -119,19 +119,25 @@ function mouseReleased(){
 		let selectedChimeraIndex = toggleSelectChimera(mouseX-width/2, mouseY-height/2);
 		deleteChimera(selectedChimeraIndex);
 	}
-	else if (keyIsDown(66) && user.slugs > 50) {
+	else if (keyIsDown(66) && user.slugs > 50) {	// b key
 			barricades.push(new Barricade(mouseX-width/2, mouseY-height/2));
 			user.slugs -= 50;
 	}
-	else{
+	else if (keyIsDown(90)){		// z key, send all selected to anchor point
+		setAnchor(mouseX-width/2, mouseY-height/2);
+	}
+	else if (mouseButton === LEFT){		// select/unselect chimera
 		toggleSelectChimera(mouseX-width/2, mouseY-height/2);
 	}
 }
 
 function keyReleased() {
-  if (keyCode === 65) {
+  if (keyCode === 65) {		// a key
 		auraAttack();
   }
+	else if (keyCode == 85){	// u key
+		selectAll();
+	}
 
 	tempBarricade.pos.x = -1000;
 	tempBarricade.pos.y= -1000;
@@ -187,6 +193,21 @@ function auraAttack(){
 					seraphs[j].health -= chimeras[i].auraAttackDamage;
 				}
 			}
+		}
+	}
+}
+
+function selectAll(){
+	for(let i in chimeras){
+		if (!chimeras[i].isSelected)
+			chimeras[i].isSelected = 1;
+	}
+}
+
+function setAnchor(incarnation_x, incarnation_y){
+	for(let i in chimeras){
+		if (chimeras[i].isSelected){
+			chimeras[i].anchor = createVector(incarnation_x, incarnation_y);
 		}
 	}
 }
