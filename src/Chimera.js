@@ -31,7 +31,12 @@ class Chimera extends Entity {
 			ellipse(this.pos.x+this.dims.x/2, this.pos.y+this.dims.y/2, this.auraRadius*2, this.auraRadius*2);
 			this.auraAttackCooldown -= 0.05;
 		}
-		image(this.img,this.pos.x,this.pos.y, 2*this.dims.x, 2*this.dims.y, this.dims.x*this.animationCt,0,this.dims.x, this.dims.y);
+		push();
+		translate(this.pos.x, this.pos.y)
+		scale(Math.sign(this.vel.x),1);
+		image(this.img,0,0, 2*this.dims.x, 2*this.dims.y, this.dims.x*this.animationCt,0,this.dims.x, this.dims.y);
+		pop();
+			
 	}
 	update(){
 		this.random_anchored_walk();

@@ -79,7 +79,7 @@ function draw(){
 		if (seraphs[i].health <= 0) {
 			seraphs.splice(i, 1);
 		}
-		if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){	
+		else if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){	
 			deadCt++;
 		}
 		seraphs[i].render();
