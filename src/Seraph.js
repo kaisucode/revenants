@@ -5,6 +5,6 @@ class Seraph extends Entity {
 	}
 	update(){
 		super.update();
-		this.random_walk();
+//		this.random_walk();
 	}
 }
