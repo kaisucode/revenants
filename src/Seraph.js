@@ -1,5 +1,5 @@
 class Seraph extends Entity {
-	constructor(incarnation_pos){
-		super(incarnation_pos);
+	constructor(incarnation_x, incarnation_y){
+		super(incarnation_x, incarnation_y);
 	}
 }
