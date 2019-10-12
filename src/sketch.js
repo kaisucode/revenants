@@ -99,13 +99,14 @@ function selectChimera(x, y){
 			console.log("selected chimera");
 			return i;
 		}
-		else{
-		}
 	}
-	console.log("non selected");
+	return -1;
+	console.log("none selected");
 }
 
 function deleteChimera(selectedChimeraIndex){
+	if (selectedChimeraIndex == -1)
+		return;
 	user.souls++;
 	chimeras.splice(selectedChimeraIndex, 1);
 }
