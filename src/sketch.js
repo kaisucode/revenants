@@ -6,7 +6,7 @@ let chimeras = [];
 let entities = [seraphs, chimeras];
 let stoneRadius = 80;
 let stonePos = new p5.Vector(0,0);
-let seraphSpawnRate = 1.05;
+let seraphSpawnRate = 1.03;
 
 function drawStone(){
 	fill(0,255,0,50);
@@ -18,8 +18,8 @@ function collideLine(aMin, aMax, bMin, bMax) {
 }
 
 function rectHitsRect(posA, dimsA, posB, dimsB) {
-	let xInt = this.collideX([posA.x, posA.x+dimsA.x], [posB.x, posB.x+dimsB.x]);
-	let yInt = this.collideX([posA.y, posA.y+dimsA.y], [posB.y, posB.y+dimsB.y]);
+	let xInt = collideLine(posA.x, posA.x+dimsA.x, posB.x, posB.x+dimsB.x);
+	let yInt = collideLine(posA.y, posA.y+dimsA.y, posB.y, posB.y+dimsB.y);
 	return (xInt && yInt);
 }
 
@@ -69,15 +69,30 @@ function draw(){
 		seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
 	}
 	for(let i in seraphs){
-		if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){
-			console.log("you loser");
+		// if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){
+		//   console.log("you loser");
+		// }
+		if (seraphs[i].health <= 0) {
+			seraphs.splice(i, 1);
 		}
 		seraphs[i].render();
 		seraphs[i].update();
+
 	}
 	for(let i in chimeras){
 		chimeras[i].render();
 		chimeras[i].update();
+
+		for(let j in seraphs){
+			if (rectHitsRect(chimeras[i].pos, chimeras[i].dims, seraphs[j].pos, seraphs[j].dims)){
+				console.log("contact");
+				meleeOnContact(j, i);
+			}
+		}
+
+		if (chimeras[i].health <= 0) {
+			chimeras.splice(i, 1);
+		}
 	}
 	fill(255,255,255);
 	text("Slugs: "+user.slugs, 20-width/2, 30-height/2);
@@ -90,12 +105,18 @@ function mouseReleased(){
 		reviveChimera(mouseX-width/2, mouseY-height/2);
 	}
 	else if (keyIsDown(68)){	// d key
-		let selectedChimeraIndex = selectChimera(mouseX-width/2, mouseY-height/2);
+		let selectedChimeraIndex = toggleSelectChimera(mouseX-width/2, mouseY-height/2);
 		deleteChimera(selectedChimeraIndex);
 	}
 	else{
-		selectChimera(mouseX-width/2, mouseY-height/2);
+		toggleSelectChimera(mouseX-width/2, mouseY-height/2);
 	}
+}
+
+function keyReleased() {
+  if (keyCode === 65) {
+		auraAttack();
+  }
 }
 
 function reviveChimera(posX, posY){
@@ -106,11 +127,18 @@ function reviveChimera(posX, posY){
 	}
 }
 
-function selectChimera(x, y){
+function toggleSelectChimera(x, y){
 	for(let i in chimeras){
 		if (pointInRect(createVector(x, y), chimeras[i].pos, chimeras[i].dims)){
-			chimeras[i].isSelected = 1;
-			console.log("selected chimera");
+			if (chimeras[i].isSelected) {
+				chimeras[i].isSelected = 0;
+				console.log("unselected chimera");
+			}
+			else {
+				chimeras[i].isSelected = 1;
+				console.log("selected chimera");
+				console.log("Health: " + chimeras[i].health);
+			}
 			return i;
 		}
 	}
@@ -123,5 +151,24 @@ function deleteChimera(selectedChimeraIndex){
 		return;
 	user.souls++;
 	chimeras.splice(selectedChimeraIndex, 1);
+}
+
+function meleeOnContact(impactedSeraphIndex, impactedChimeraIndex){
+	chimeras[impactedChimeraIndex].health -= seraphs[impactedSeraphIndex].meleeDamage;
+	seraphs[impactedSeraphIndex].health -= chimeras[impactedChimeraIndex].meleeDamage;
+}
+
+function auraAttack(){
+	for(let i in chimeras){
+		if (chimeras[i].isSelected && chimeras[i].auraAttackCooldown <= 0){
+			chimeras[i].auraAttackCooldown = 10;
+
+			for(let j in seraphs){
+				if (rectHitsCircle(chimeras[i].auraPos, chimeras[i].auraRadius, seraphs[j].pos, seraphs[j].dims)){
+					seraphs[j].health -= chimeras[i].auraAttackDamage;
+				}
+			}
+		}
+	}
 }
 

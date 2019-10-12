@@ -26,6 +26,10 @@
   - random anchored walk (within radius)
   - attack visible seraphs
 
+### combat
+  - Seraphs: pure melee
+  - Chimeras: melee, ranged (radius of influence), health up
+
 ## UI:
   - souls: when you run out you die
   - slugs: in game currency, buy stuff with it
