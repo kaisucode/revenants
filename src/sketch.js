@@ -1,7 +1,5 @@
 
-let totalAllies = 0;
-let soulCount = 10;
-let slugs = 0;
+let user = new User();
 
 let seraphs = [];
 let chimeras = [];
