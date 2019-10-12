@@ -10,7 +10,13 @@ class Entity{
 	}
 	update(){
 		// vel*dt, but dt=1
-		this.pos.add(this.vel);
+		let proposedpos = p5.Vector.add(this.pos, this.vel);
+		let xGood = proposedpos.x>-width/2+this.dims.x/2 && proposedpos.x<width/2-this.dims.x/2;
+		let yGood = proposedpos.y>-height/2+this.dims.y/2 && proposedpos.y<height/2-this.dims.y/2; 
+		if (xGood)
+			this.pos.x += this.vel.x
+		if (yGood)
+			this.pos.y += this.vel.y
 	}
 	random_anchored_walk(){
 		this.vel.x = Math.random()-0.5;
