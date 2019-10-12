@@ -14,6 +14,8 @@ class Chimera extends Entity {
 		this.auraRadius = 100;
 	}
 	render() {
+		this.random_anchored_walk();
+
 		if (this.isSelected)
 			fill(this.selectedColor);
 		else
@@ -25,6 +27,7 @@ class Chimera extends Entity {
 			ellipse(this.pos.x+this.dims.x/2, this.pos.y+this.dims.y/2, this.auraRadius*2, this.auraRadius*2);
 			this.auraAttackCooldown -= 0.05;
 		}
+		img();
 	}
 	update(){
 		this.random_anchored_walk();
