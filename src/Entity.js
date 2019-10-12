@@ -1,6 +1,8 @@
 class Entity{
 	constructor(incarnation_x, incarnation_y){
+		this.whichEntity = "generic";
 		this.health = 10;
+		this.speed = 2;
 		this.pos = new p5.Vector(incarnation_x, incarnation_y);
 		this.vel = new p5.Vector(0,0);
 		this.dims = new p5.Vector(10,10);
