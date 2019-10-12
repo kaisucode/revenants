@@ -181,8 +181,9 @@ function auraAttack(){
 		if (chimeras[i].isSelected && chimeras[i].auraAttackCooldown <= 0){
 			chimeras[i].auraAttackCooldown = 10;
 
+			let auraPos = createVector(chimeras[i].pos.x+chimeras[i].dims.x/2, chimeras[i].pos.y+chimeras[i].dims.y/2);
 			for(let j in seraphs){
-				if (rectHitsCircle(chimeras[i].auraPos, chimeras[i].auraRadius, seraphs[j].pos, seraphs[j].dims)){
+				if (rectHitsCircle(auraPos, chimeras[i].auraRadius, seraphs[j].pos, seraphs[j].dims)){
 					seraphs[j].health -= chimeras[i].auraAttackDamage;
 				}
 			}

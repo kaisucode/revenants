@@ -11,7 +11,6 @@ class Chimera extends Entity {
 		this.defaultColor = color(0, 255, 242);
 		this.selectedColor = color(40, 200, 100)
 
-		this.auraPos = createVector(this.pos.x+this.dims.x/2, this.pos.y+this.dims.y/2);
 		this.auraRadius = 100;
 	}
 	render() {
@@ -23,7 +22,7 @@ class Chimera extends Entity {
 
 		if (this.auraAttackCooldown > 0){
 			fill(0, 255, 242, 50);
-			ellipse(this.auraPos.x, this.auraPos.y, this.auraRadius*2, this.auraRadius*2);
+			ellipse(this.pos.x+this.dims.x/2, this.pos.y+this.dims.y/2, this.auraRadius*2, this.auraRadius*2);
 			this.auraAttackCooldown -= 0.05;
 		}
 	}
