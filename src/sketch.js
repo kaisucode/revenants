@@ -7,14 +7,13 @@ let seraphSpawnRate = 100;
 
 function setup(){
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
-	seraphs.push(new Seraph(Math.random(0,width),Math.random(0,height)));
-	chimeras.push(new Chimera(Math.random(0,width),Math.random(0,height)));
+	seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
+	chimeras.push(new Chimera(Math.random()*width,Math.random()*height));
 }
-
 
 function draw(){
 	if (Math.random() < 1/seraphSpawnRate){
-		seraphs.push(new Seraph(Math.random(0,width),Math.random(0,height)));
+		seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
 	}
 	translate(width/2, height/2);
 	background(0);
