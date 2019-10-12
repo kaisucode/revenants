@@ -75,15 +75,15 @@ function draw(){
 		seraphs.push(new Seraph(...largeRadiusRandomPoint(height*0.8)));
 	}
 	for(let i in seraphs){
-		if (seraphs[i].health <= 0) {
-			seraphs.splice(i, 1);
-		}
-		if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){	
-			deadCt++;
-		}
 		seraphs[i].render();
 		seraphs[i].update();
 
+		if (seraphs[i].health <= 0) {
+			seraphs.splice(i, 1);
+		}
+		else if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){	
+			deadCt++;
+		}
 	}
 	for(let i in chimeras){
 		chimeras[i].render();
@@ -92,6 +92,13 @@ function draw(){
 		for(let j in seraphs){
 			if (rectHitsRect(chimeras[i].pos, chimeras[i].dims, seraphs[j].pos, seraphs[j].dims)){
 				meleeOnContact(j, i);
+			}
+		}
+
+		let auraPos = createVector(chimeras[i].pos.x+chimeras[i].dims.x/2, chimeras[i].pos.y+chimeras[i].dims.y/2);
+		for(let j in seraphs){
+			if (rectHitsCircle(auraPos, chimeras[i].auraRadius, seraphs[j].pos, seraphs[j].dims)){
+				seraphs[j].health -= chimeras[i].auraAttackDamage;
 			}
 		}
 
@@ -127,11 +134,14 @@ function mouseReleased(){
 			barricades.push(new Barricade(mouseX-width/2, mouseY-height/2));
 			user.slugs -= 50;
 	}
-	else if (keyIsDown(90)){		// z key, send all selected to anchor point
-		setAnchor(mouseX-width/2, mouseY-height/2);
-	}
 	else if (mouseButton === LEFT){		// select/unselect chimera
 		toggleSelectChimera(mouseX-width/2, mouseY-height/2);
+	}
+}
+
+function mousePressed(){
+	if (keyIsDown(90)){		// z key, send all selected to anchor point
+		setAnchor(mouseX-width/2, mouseY-height/2);
 	}
 }
 
@@ -191,12 +201,6 @@ function auraAttack(){
 		if (chimeras[i].isSelected && chimeras[i].auraAttackCooldown <= 0){
 			chimeras[i].auraAttackCooldown = 10;
 
-			let auraPos = createVector(chimeras[i].pos.x+chimeras[i].dims.x/2, chimeras[i].pos.y+chimeras[i].dims.y/2);
-			for(let j in seraphs){
-				if (rectHitsCircle(auraPos, chimeras[i].auraRadius, seraphs[j].pos, seraphs[j].dims)){
-					seraphs[j].health -= chimeras[i].auraAttackDamage;
-				}
-			}
 		}
 	}
 }
