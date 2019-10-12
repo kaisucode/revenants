@@ -18,7 +18,13 @@ function pointInRect(point, rectPos, rectDims){
 	return yGood && xGood;
 }
 
-function rectHitsCircle(posA, rA, posB, dimsB){
+function circleHitsCircle(posA, rA, posB, rB){
+	let dx2 = Math.pow(posA.x - posB.x, 2);
+	let dy2 = Math.pow(posA.y - posB.y, 2);
+	return dx2+dy2 <= Math.pow(rA+rB,2)
+}
+
+function rectHitsCircle(posCircle, rCircle, posRect, dimsRect){
   /*circle rectangle collision
   easier to think of circle running into rectangle, even though it is the other way arround
   Basic idea: if the point on the square which is closest to the circle isn't in the circle there is not collision
@@ -27,12 +33,12 @@ function rectHitsCircle(posA, rA, posB, dimsB){
   */
 
   // gives center if circle is in rectangle, otherwise gives the coordinates of the closest side (x and y)
-  let nearX = Math.max(x, Math.min(xc, x+w) );
-  let nearY = Math.max(y, Math.min(yc, y+h) );
+  let nearX = Math.max(posRect.x, Math.min(posCircle.x, posRect.x+dimsRect.x));
+  let nearY = Math.max(posRect.y, Math.min(posCircle.y, posRect.y+dimsRect.y));
 
-  let dx = nearX - xc; let dy = nearY - yc;
+  let dx = nearX - posCircle.x; let dy = nearY - posCircle.y;
 
-  return (dx*dx + dy*dy <= r*r);
+  return (dx*dx + dy*dy <= rCircle*rCircle);
 
 }
 
@@ -50,8 +56,8 @@ function draw(){
 		seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
 	}
 	for(let i in seraphs){
-		if(circleHitsCircle()){
-		}
+		// if(rectHitsCircle()){
+		// }
 		seraphs[i].render();
 		seraphs[i].update();
 	}
