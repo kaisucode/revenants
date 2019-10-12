@@ -5,7 +5,7 @@ class Seraph extends Entity {
 		this.meleeDamage = 5;
 	}
 	update(){
+		this.random_anchored_walk();
 		super.update();
-		// this.random_walk();
 	}
 }

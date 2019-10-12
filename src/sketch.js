@@ -1,12 +1,13 @@
-
 let user = new User();
 
 let seraphs = [];
 let chimeras = [];
-let entities = [seraphs, chimeras];
+let barricades = [];
+let tempBarricade;
 let stoneRadius = 80;
 let stonePos = new p5.Vector(0,0);
-let seraphSpawnRate = 1.03;
+let seraphSpawnRate = 1.02;
+let deadCt = 0;
 
 function drawStone(){
 	fill(0,255,0,50);
@@ -23,6 +24,9 @@ function rectHitsRect(posA, dimsA, posB, dimsB) {
 	return (xInt && yInt);
 }
 
+function largeRadiusRandomPoint(r){
+	return [r*Math.cos(Math.random()*2*Math.PI), r*Math.sin(Math.random()*2*Math.PI)];
+}
 
 function pointInRect(point, rectPos, rectDims){
 	let xGood = (point.x > rectPos.x) && (point.x < rectDims.x + rectPos.x);
@@ -57,23 +61,24 @@ function rectHitsCircle(posCircle, rCircle, posRect, dimsRect){
 
 function setup(){
 	createCanvas(window.innerWidth*0.95, window.innerHeight*0.95);
-	seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
 	textSize(30);
+	tempBarricade = new Barricade(600,600)
 }
 
 function draw(){
 	background(0);
 	translate(width/2, height/2);
 	drawStone();
+	placeBarricade();
+	Mouse();
 	if (Math.random() > 1/seraphSpawnRate){
-		seraphs.push(new Seraph(Math.random()*width,Math.random()*height));
+		seraphs.push(new Seraph(...largeRadiusRandomPoint(height*0.8)));
 	}
 	for(let i in seraphs){
-		// if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){
-		//   console.log("you loser");
-		// }
 		if (seraphs[i].health <= 0) {
 			seraphs.splice(i, 1);
+		if(rectHitsCircle(stonePos, stoneRadius, seraphs[i].pos, seraphs[i].dims)){	
+			deadCt++;
 		}
 		seraphs[i].render();
 		seraphs[i].update();
@@ -94,9 +99,14 @@ function draw(){
 			chimeras.splice(i, 1);
 		}
 	}
+	for(let i in barricades){
+		barricades[i].render();
+	}
+	tempBarricade.render();
 	fill(255,255,255);
 	text("Slugs: "+user.slugs, 20-width/2, 30-height/2);
 	text("Souls: "+user.souls, 20-width/2, 60-height/2);
+	text("Deathct: "+deadCt, 20-width/2, 90-height/2);
 }
 
 
@@ -107,6 +117,10 @@ function mouseReleased(){
 	else if (keyIsDown(68)){	// d key
 		let selectedChimeraIndex = toggleSelectChimera(mouseX-width/2, mouseY-height/2);
 		deleteChimera(selectedChimeraIndex);
+	}
+	else if (keyIsDown(66) && user.slugs > 50) {
+			barricades.push(new Barricade(mouseX-width/2, mouseY-height/2));
+			user.slugs -= 50;
 	}
 	else{
 		toggleSelectChimera(mouseX-width/2, mouseY-height/2);
@@ -171,4 +185,29 @@ function auraAttack(){
 		}
 	}
 }
+
+function placeBarricade(){
+	if (keyIsDown(66)){
+		//set the mouse to be a barricade
+		tempBarricade.pos.x = mouseX-width/2;
+		tempBarricade.pos.y = mouseY-height/2;
+	}
+}
+
+function Mouse(){
+	noCursor();
+	fill(255, 0, 0, 0);
+	stroke(255, 0, 0);
+	strokeWeight(3);
+	circle(mouseX-width/2, mouseY-height/2, 10);
+	fill(0, 0, 0);
+	stroke(0, 0, 0);
+}
+
+function keyReleased() {
+	tempBarricade.pos.x = -1000;
+	tempBarricade.pos.y= -1000;
+}
+
+setInterval(function(){user.slugs+=3}, 1000);
 
